@@ -8,8 +8,6 @@ build/
 *.tsbuildinfo
 
 # Environment variables & secrets (protect all except .env.example)
-.env
-.env.*
 !.env.example
 
 # Logs
@@ -50,3 +48,4 @@ temp/
 tmp/
 uploads/
 
+config.bat

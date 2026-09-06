@@ -5,9 +5,9 @@
   "main": "server.js",
   "scripts": {
     "preinstall": "only-allow pnpm",
-    "start": "node ./dist/server.js",
-    "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
-    "build": "tsc",
+    "start": "node init && node ./dist/server.js",
+    "dev": "node init && ts-node-dev --respawn --transpile-only src/server.ts",
+    "build": "node init && tsc",
     "check": "tsc --noEmit",
     "generate": "ts-node src/generate-module.js",
     "postinstall": "prisma generate",
@@ -18,7 +18,7 @@
     "pnpm": ">=9.0.0"
   },
   "keywords": [],
-  "author": "",
+  "author": "rakibutsho <rakibutsho1920@gmail.com>",
   "license": "ISC",
   "description": "",
   "devDependencies": {
@@ -65,6 +65,7 @@
     "multer": "^1.4.5-lts.2",
     "multer-storage-cloudinary": "^4.0.0",
     "node-cron": "^3.0.3",
+    "node-fetch": "^3.3.2",
     "nodemailer": "^9.0.1",
     "paypal-rest-sdk": "^1.8.1",
     "streamifier": "^0.1.1",

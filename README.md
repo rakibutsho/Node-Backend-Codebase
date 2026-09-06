@@ -402,12 +402,19 @@ pm2 startup
 
 ---
 
+## 👤 Author
+
+**rakibutsho**
+- Email: [rakibutsho1920@gmail.com](mailto:rakibutsho1920@gmail.com)
+
+---
+
 ## 📄 License
 
 This starter pack is licensed under the following terms:
 
 ```text
-Copyright (c) 2026 Md. Ashiqur Rahman Tonmoy
+Copyright (c) 2026 rakibutsho <rakibutsho1920@gmail.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -422,5 +429,6 @@ copies of the Software, subject to the following conditions:
 - The above copyright notice and this permission notice shall be included in all copies
   or substantial portions of the Software.
 ```
+
 
 
