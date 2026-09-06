@@ -1,8 +1,52 @@
-node_modules
-# Keep environment variables out of version control
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build and Output
+dist/
+build/
+*.tsbuildinfo
+
+# Environment variables & secrets (protect all except .env.example)
 .env
-.env*.local
-dist
-.vercel
-postman
-.postman
+.env.*
+!.env.example
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Testing & Coverage
+coverage/
+.nyc_output/
+
+# IDE & Editor files
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Operating System files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Deployment & Local API artifacts
+.vercel/
+postman/
+.postman/
+temp/
+tmp/
+uploads/
+

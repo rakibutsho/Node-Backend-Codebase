@@ -19,9 +19,8 @@ A production-ready, scalable RESTful API and real-time backend architecture buil
    - [Subscription Offer Routes](#4-subscription-offer-routes-apiv1subscriptionoffers)
    - [User Subscription Routes](#5-user-subscription-routes-apiv1usersubscriptions)
    - [WebSockets & Real-Time Communication](#6-websockets--real-time-communication)
-9. [Available NPM Scripts](#-available-npm-scripts)
+9. [Available PNPM Scripts](#-available-pnpm-scripts)
 10. [Step-by-Step Deployment Guide](#-step-by-step-deployment-guide)
-    - [Deploy to Vercel](#deploy-to-vercel-recommended-serverless)
     - [Deploy to VPS / Linux Server (PM2)](#deploy-to-vps--linux-server-pm2)
 11. [Troubleshooting & Common Issues](#-troubleshooting--common-issues)
 
@@ -48,7 +47,7 @@ A production-ready, scalable RESTful API and real-time backend architecture buil
 
 Before getting started, ensure you have the following installed on your local machine:
 - **Node.js**: `v18.0.0` or higher (v20 LTS recommended)
-- **npm** (v9+) or **yarn** / **pnpm**
+- **pnpm**: `v9.0.0` or higher (`12.x` recommended — enforced as default)
 - **Git**
 - **MongoDB Atlas** cluster account (or local MongoDB with replica set enabled)
 
@@ -59,13 +58,13 @@ Before getting started, ensure you have the following installed on your local ma
 ### 1. Clone the Repository
 ```bash
 git clone <your-repository-url>
-cd code-base
+cd Backend_code_base
 ```
 
 ### 2. Install Dependencies
-Install all required project packages:
+Install all required project packages using **pnpm**:
 ```bash
-npm install
+pnpm install
 ```
 *(Note: `prisma generate` will run automatically after install via `postinstall` script).*
 
@@ -84,15 +83,15 @@ Open `.env` and fill in your MongoDB URI, JWT Secrets, SMTP credentials, and thi
 Generate the Prisma client and push your schema to MongoDB:
 ```bash
 # Generate Prisma Client
-npx prisma generate
+pnpm exec prisma generate
 
 # Push Schema to MongoDB
-npx prisma db push
+pnpm exec prisma db push
 ```
 
 ### 5. Start the Development Server
 ```bash
-npm run dev
+pnpm dev
 ```
 The server will start listening at: `http://localhost:5000` (or the port defined in your `.env`).
 
@@ -256,8 +255,7 @@ The generator automatically:
 ├── .env.example               # Template environment configuration
 ├── .gitignore                 # Git ignore rules (protects .env)
 ├── package.json               # NPM scripts and dependencies
-├── tsconfig.json              # TypeScript compiler configuration
-└── vercel.json                # Vercel serverless deployment configuration
+└── tsconfig.json              # TypeScript compiler configuration
 ```
 
 ---
@@ -341,60 +339,20 @@ The server attaches a WebSocket server to the HTTP instance for real-time capabi
 
 ---
 
-## 📜 Available NPM Scripts
+## 📜 Available PNPM Scripts
 
 | Command | Action |
 | :--- | :--- |
-| `npm run dev` | Starts development server with hot reload (`ts-node-dev`) |
-| `npm run build` | Compiles TypeScript (`src/`) to JavaScript (`dist/`) |
-| `npm start` | Runs the compiled production code (`node ./dist/server.js`) |
-| `npm run generate` | Runs the automatic module scaffolding generator |
-| `npm run postinstall` | Automatically triggers `prisma generate` upon package installation |
+| `pnpm dev` | Starts development server with hot reload (`ts-node-dev`) |
+| `pnpm build` | Compiles TypeScript (`src/`) to JavaScript (`dist/`) |
+| `pnpm check` | Runs TypeScript type-checking without emitting files (`tsc --noEmit`) |
+| `pnpm start` | Runs the compiled production code (`node ./dist/server.js`) |
+| `pnpm generate` | Runs the automatic module scaffolding generator |
+| `pnpm postinstall` | Automatically triggers `prisma generate` upon package installation |
 
 ---
 
 ## 🚀 Step-by-Step Deployment Guide
-
-### Deploy to Vercel (Recommended Serverless)
-
-This project contains a preconfigured [vercel.json](file:///c:/Users/ashiq/Desktop/Code%20Base/code-base/vercel.json).
-
-#### Step 1: Build the Project Locally
-Ensure TypeScript compiles cleanly:
-```bash
-npm run build
-```
-
-#### Step 2: Install Vercel CLI (if not already installed)
-```bash
-npm i -g vercel
-vercel -v
-```
-
-#### Step 3: Login to Vercel
-```bash
-vercel login
-```
-
-#### Step 4: Deploy to Production
-```bash
-vercel --prod
-```
-During the interactive prompt:
-- **Set up and deploy?**: `y`
-- **Which scope?**: Press `Enter` (default account)
-- **Link to existing project?**: `n`
-- **What's your project name?**: Press `Enter` (or specify name)
-- **In which directory is code located?**: `./` (Press `Enter`)
-
-#### Step 5: Add Environment Variables on Vercel
-1. Navigate to [Vercel Dashboard](https://vercel.com/dashboard).
-2. Select your deployed project.
-3. Go to **Settings** > **Environment Variables**.
-4. Add all keys from your `.env` file (e.g., `DATABASE_URL`, `JWT_SECRET`, `NODE_ENV=production`).
-5. Trigger a Redeploy under the **Deployments** tab.
-
----
 
 ### Deploy to VPS / Linux Server (PM2)
 
@@ -402,7 +360,7 @@ During the interactive prompt:
 ```bash
 git clone <your-repo-url> /var/www/api
 cd /var/www/api
-npm install
+pnpm install
 ```
 
 #### Step 2: Configure Environment
@@ -413,13 +371,13 @@ nano .env   # edit variables
 
 #### Step 3: Generate Prisma Client & Build
 ```bash
-npx prisma generate
-npm run build
+pnpm exec prisma generate
+pnpm build
 ```
 
 #### Step 4: Start Process with PM2
 ```bash
-# Install PM2 globally
+# Install PM2 globally (if needed)
 npm install -g pm2
 
 # Start server
@@ -439,8 +397,8 @@ pm2 startup
 | `PrismaClientInitializationError` | Invalid or unreachable `DATABASE_URL` | Ensure your MongoDB Atlas IP access list allows `0.0.0.0/0` or your server IP. |
 | `Cannot find module '@prisma/client'` | Prisma client not generated | Run `npx prisma generate`. |
 | `JWT / Token Unauthorized (401)` | Expired or incorrect secret | Verify `JWT_SECRET` matches across environments and token is formatted as `Bearer <token>`. |
-| `CORS Error in Browser` | Origin not whitelisted | Add your frontend domain to `corsOptions.origin` in [src/app.ts](file:///c:/Users/ashiq/Desktop/Code%20Base/code-base/src/app.ts). |
-| `Rate Limit 429 Too Many Requests` | Exceeded 2000 req / 15 min | Adjust window and limit in `apiLimiter` in [src/app.ts](file:///c:/Users/ashiq/Desktop/Code%20Base/code-base/src/app.ts). |
+| `CORS Error in Browser` | Origin not whitelisted | Add your frontend domain to `corsOptions.origin` in `src/app.ts` or set `FRONTEND_BASE_URL` in `.env`. |
+| `Rate Limit 429 Too Many Requests` | Exceeded 2000 req / 15 min | Adjust window and limit in `apiLimiter` in `src/app.ts`. |
 
 ---
 
